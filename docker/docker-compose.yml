@@ -1,0 +1,20 @@
+version: "3"
+
+services:
+  node-1:
+    build:
+      context: ../
+      dockerfile: ./docker/Dockerfile
+    image: clustertruck/realtime-dev
+    container_name: realtime-dev-1
+    environment:
+      - REALTIME_ENV=development
+      - DB_HOST=192.168.99.100
+      - REDIS_HOST=192.168.99.100:6379
+      - ELIXIR_NODES=realtime@realtime-dev-1,realtime@realtime-dev-2,realtime@realtime-dev-3
+    ports:
+      - "8000:8000"
+    privileged: true
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ../:/appdev
